@@ -6,7 +6,7 @@ target 'MLRepurpose' do
   use_frameworks!
 
   # Pods for MLRepurpose
-
+  pod 'SwiftSoup'
   target 'MLRepurposeTests' do
     inherit! :search_paths
     # Pods for testing
