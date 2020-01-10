@@ -5,6 +5,9 @@
 ### Secrets ###
 KEY.swift
 
+### ML model ###
+.mlmodel
+
 ### CocoaPods ###
 ## CocoaPods GitIgnore Template
 

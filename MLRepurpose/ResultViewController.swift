@@ -17,7 +17,6 @@ class ResultViewController: UIViewController {
     private lazy var detectionLayer: CALayer! = nil
     private lazy var rootLayer: CALayer! = nil
     private lazy var urls: [URL] = []
-    private lazy var innerView: UIView! = nil
     private lazy var imageView: UIImageView = {
         var imageView = UIImageView(frame: UIScreen.main.coordinateSpace.bounds)
         imageView.contentMode = .scaleAspectFit
@@ -35,7 +34,7 @@ class ResultViewController: UIViewController {
     private var requests = [VNRequest]()
     
     private let resultView: DraggableResultView = DraggableResultView(frame: UIScreen.main.coordinateSpace.bounds)
-    
+    private let yolo = YOLOv3()
     var pathLayer: CALayer?
     
     override func viewDidLoad() {
@@ -47,9 +46,7 @@ class ResultViewController: UIViewController {
         self.navigationController?.navigationBar.isHidden = false
         setupUI()
         setupTableView()
-//        setupRequest()
-        setupLayers()
-        
+        setupVision()
         
     }
     
@@ -63,7 +60,7 @@ class ResultViewController: UIViewController {
     func performVisionRequest(image: CGImage, orientation: CGImagePropertyOrientation) {
         
         // Fetch desired requests based on switch status.
-        let requests = [self.rectangleDetectionRequest]
+        let requests = [self.coreMLDetectRequest]
         // Create a request handler.
         let imageRequestHandler = VNImageRequestHandler(cgImage: image,
                                                         orientation: orientation,
@@ -80,52 +77,59 @@ class ResultViewController: UIViewController {
         }
     }
     
-//    @discardableResult
-//    func setupVision() -> NSError? {
-//        // Setup Vision parts
-//        let error: NSError! = nil
-//
-//        guard let modelURL = Bundle.main.url(forResource: "ObjectDetector", withExtension: "mlmodelc") else {
-//            return NSError(domain: "VisionObjectRecognitionViewController", code: -1, userInfo: [NSLocalizedDescriptionKey: "Model file is missing"])
-//        }
-//        do {
-//            let visionModel = try VNCoreMLModel(for: MLModel(contentsOf: modelURL))
-//            let objectRecognition = VNCoreMLRequest(model: visionModel, completionHandler: { (request, error) in
-//                DispatchQueue.main.async(execute: {
-//                    // perform all the UI updates on the main queue
-//                    if let results = request.results {
-//                        self.drawVisionRequestResults(results)
-//                    }
-//                })
-//            })
-//            self.requests = [objectRecognition]
-//        } catch let error as NSError {
-//            print("Model loading went wrong: \(error)")
-//        }
-//
-//        return error
-//    }
+    func setupVision() -> NSError? {
+        // Setup Vision parts
+        
+        do {
+            let visionModel = try VNCoreMLModel(for: yolo.model)
+            let objectRecognition = VNCoreMLRequest(model: visionModel, completionHandler: { (request, error) in
+                DispatchQueue.main.async(execute: {
+                    // perform all the UI updates on the main queue
+                    if let results = request.results {
+                    }
+                })
+            })
+            self.requests = [objectRecognition]
+        } catch let error as NSError {
+            print("Model loading went wrong: \(error)")
+        }
+
+        return nil
+    }
+
+    lazy var coreMLDetectRequest: VNCoreMLRequest = {
+        do {
+            let model = try VNCoreMLModel(for: yolo.model)
+            let modelDetectRequest = VNCoreMLRequest(model: model, completionHandler: self.handleCoreMLRequest)
+            modelDetectRequest.imageCropAndScaleOption = .scaleFit
+            return modelDetectRequest
+        } catch {
+            fatalError("Can't load model")
+        }
+    }()
     
-//    func setupRequest() {
-//        var shapeRequest: VNDetectRectanglesRequest {
-//            let rectDetectRequest = VNDetectRectanglesRequest { (request, error) in
-//                DispatchQueue.main.async {
-//                    if let results = request.results {
-//                        self.drawVisionRequestResults(results)
-//                    } else {
-//                        return
-//                    }
-//                }
-//            }
-//            // Customize & configure the request to detect only certain rectangles.
-//            rectDetectRequest.maximumObservations = 1 // Vision currently supports up to 16.
-//            rectDetectRequest.minimumConfidence = 0.6 // Be confident.
-//            rectDetectRequest.minimumAspectRatio = 0.3 // height / width
-//            return rectDetectRequest
-//        }
-//
-//        requests.append(shapeRequest)
-//    }
+    func handleCoreMLRequest(request: VNRequest?, error: Error?) {
+        if let nsError = error as NSError? {
+            return
+        }
+        // Since handlers are executing on a background thread, explicitly send draw calls to the main thread.
+        DispatchQueue.main.async {
+            guard let drawLayer = self.pathLayer,
+                let results = request?.results as? [VNRecognizedObjectObservation] else {
+                    return
+            }
+            self.draw(interests: results, onImageWithBounds: drawLayer.bounds)
+            drawLayer.setNeedsDisplay()
+        }
+    }
+    
+    func draw(interests: [VNRecognizedObjectObservation], onImageWithBounds: CGRect ) {
+        for observation in interests {
+            let rectBox = boundingBox(forRegionOfInterest: observation.boundingBox, withinImageBounds: onImageWithBounds)
+            let topConfident = observation.labels[0]
+            createButton(name: topConfident.identifier, frame: rectBox)
+        }
+    }
     
     func updateClassification(for image: UIImage) {
         let orientation = CGImagePropertyOrientation(image.imageOrientation)
@@ -282,11 +286,7 @@ extension ResultViewController {
         drawingLayer.position = CGPoint(x: xLayer, y: yLayer)
         drawingLayer.opacity = 0.5
         pathLayer = drawingLayer
-//        self.imageView.layer.addSublayer(pathLayer!)
-        
-        //MARK: set the frame of the inner view
-        innerImageView = UIView(frame: CGRect(x: xLayer, y: yLayer, width: imageWidth, height: imageHeight))
-        self.imageView.addSubview(innerImageView)
+        imageView.isUserInteractionEnabled = true
     }
     
     // tags: rectangle request handler
@@ -335,7 +335,6 @@ extension ResultViewController {
         // Rescale normalized coordinates.
         rect.size.width *= imageWidth
         rect.size.height *= imageHeight
-        print("bounding box rect: \(rect)")
         return rect
     }
     
@@ -370,28 +369,31 @@ extension ResultViewController {
         
         return layer
     }
+    
+    fileprivate func createButton(name: String, frame: CGRect) {
+        // Create a new layer.
+        let layer = CAShapeLayer()
+        layer.anchorPoint = .zero
+        layer.frame = frame
+        // Transform the layer to have same coordinate system as the imageView underneath it.
+        layer.transform = CATransform3DMakeScale(1, -1, 1)
+        
+        let detectionButton = DetectionButton(frame: layer.frame)
+        detectionButton.setTitle(name, for: .normal)
+        detectionButton.transform3D = layer.transform
+        detectionButton.addTarget(self, action: #selector(startQuery(button:)), for: .touchUpInside)
+        imageView.addSubview(detectionButton)
+    }
 }
 
 
 //MARK: - Setup UIs functions
 extension ResultViewController {
     
-    private func  setupLayers() {
-        rootLayer = imageView.layer
-        detectionLayer = CALayer() // container layer that has all the renderings of the observations
-        detectionLayer.name = "DetectionOverlay"
-        detectionLayer.bounds = CGRect(x: 0.0,
-                                         y: 0.0,
-                                         width: imageView.bounds.width,
-                                         height: imageView.bounds.height)
-        detectionLayer.position = CGPoint(x: rootLayer.bounds.midX, y: rootLayer.bounds.midY)
-        rootLayer.addSublayer(detectionLayer)
-    }
-    
     private func setupUI() {
         view.addSubview(resultView)
         resultView.insertSubview(imageView, belowSubview: resultView.timeStampView)
-        
+        resultView.timeStampTitle.text = "Not Searching"
         let panGesture = UIPanGestureRecognizer()
         panGesture.addTarget(self, action: #selector(resultViewSwiped(gesture:)))
         resultView.timeStampView.addGestureRecognizer(panGesture)
@@ -424,7 +426,7 @@ extension ResultViewController {
                 cell.loading.stopAnimating()
                 let linkView = data != nil ? LPLinkView(metadata: data!) : LPLinkView(url: url)
                 linkView.frame = cell.contentView.bounds
-                cell.contentView.addSubview(linkView)
+                cell.linkPreview = linkView
             }
         }
     }
@@ -432,34 +434,45 @@ extension ResultViewController {
 
 //MARK: - OBJC functions
 extension ResultViewController {
-    @objc private func itemButtonTapped() {
-        // Action for all the buttons of the recognized items
-    }
     
     @objc private func resultViewSwiped(gesture: UIPanGestureRecognizer) {
         resultView.viewDragged(gesture: gesture)
     }
     
-    @objc private func startQuery(button: UIButton) {
+    @objc private func startQuery(button: DetectionButton) {
+        if !self.urls.isEmpty {
+            self.urls = []
+            DispatchQueue.main.async {
+                self.linkPreviewTableView.reloadData()
+            }
+        }
         guard let name = button.titleLabel?.text else {
             #if DEBUG
             print("There's no title")
             #endif
             self.urls = []
-            self.linkPreviewTableView.reloadData()
+            DispatchQueue.main.async {
+                self.resultView.timeStampTitle.text = "Not Searching"
+                self.linkPreviewTableView.reloadData()
+            }
             return
         }
+        resultView.timeStampTitle.text = "How to repurpose \(name)"
         manager.searchApi(item_name: name) { (result) in
             switch result {
             case let .success(model):
                 self.urls = model.compactMap{ URL(string: $0.link) }
-                self.linkPreviewTableView.reloadData()
+                DispatchQueue.main.async {
+                    self.linkPreviewTableView.reloadData()
+                }
             case let .failure(error):
                 #if DEBUG
                 print(error.localizedDescription)
                 #endif
                 self.urls = []
-                self.linkPreviewTableView.reloadData()
+                DispatchQueue.main.async {
+                    self.linkPreviewTableView.reloadData()
+                }
             }
         }
     }
@@ -476,6 +489,8 @@ extension ResultViewController: UITableViewDataSource {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "urlCell", for: indexPath) as? LinkPreviewCell else {
             return UITableViewCell()
         }
+
+        
         getOneMetadata(url: urls[indexPath.row], index: indexPath)
         return cell
     }

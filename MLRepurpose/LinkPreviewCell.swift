@@ -7,10 +7,20 @@
 //
 
 import UIKit
+import LinkPresentation
 
 class LinkPreviewCell: UITableViewCell {
     let loading = UIActivityIndicatorView(style: .medium)
-    
+    var linkPreview: LPLinkView? = nil {
+        didSet {
+            if let view = linkPreview {
+                contentView.addSubview(view)
+            } else {
+                linkPreview?.removeFromSuperview()
+                loading.startAnimating()
+            }
+        }
+    }
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         loading.center = contentView.center

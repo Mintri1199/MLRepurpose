@@ -34,6 +34,7 @@ class DraggableResultView: UIView, UIGestureRecognizerDelegate {
         timeStampView.addSubview(timeStampTitle)
         timeStampView.addSubview(grayBar)
         grayBarConstraints()
+        timeStampTitleConstraints()
     }
     
     private func createTimeStampView() -> UIView {
@@ -51,9 +52,10 @@ class DraggableResultView: UIView, UIGestureRecognizerDelegate {
         // Edit this with the label cells
         let label = UILabel()
         label.text = "Finished work sessions"
-        label.textAlignment = .left
+        label.textAlignment = .center
         label.textColor = UIColor(red: 0/255, green: 0/255, blue: 0/255, alpha: 0.8)
         label.font = UIFont(name: "Avenir-Heavy", size: 25)
+        label.adjustsFontSizeToFitWidth = true
         return label
     }
 

@@ -22,6 +22,8 @@
 		4451C9CD23C81611007BE919 /* LinkPreviewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4451C9CC23C81611007BE919 /* LinkPreviewCell.swift */; };
 		4451C9CF23C82930007BE919 /* EmptyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4451C9CE23C82930007BE919 /* EmptyView.swift */; };
 		4451C9D123C842CA007BE919 /* CGImagePropertyOrientation+UIImageOrientation.swift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4451C9D023C842CA007BE919 /* CGImagePropertyOrientation+UIImageOrientation.swift.swift */; };
+		44BE9E0A23C885290012B8DA /* YOLOv3.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 44BE9E0923C885290012B8DA /* YOLOv3.mlmodel */; };
+		44BE9E0C23C9030D0012B8DA /* DetectionButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44BE9E0B23C9030D0012B8DA /* DetectionButton.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -52,6 +54,8 @@
 		4451C9CC23C81611007BE919 /* LinkPreviewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinkPreviewCell.swift; sourceTree = "<group>"; };
 		4451C9CE23C82930007BE919 /* EmptyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyView.swift; sourceTree = "<group>"; };
 		4451C9D023C842CA007BE919 /* CGImagePropertyOrientation+UIImageOrientation.swift.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CGImagePropertyOrientation+UIImageOrientation.swift.swift"; sourceTree = "<group>"; };
+		44BE9E0923C885290012B8DA /* YOLOv3.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = YOLOv3.mlmodel; sourceTree = "<group>"; };
+		44BE9E0B23C9030D0012B8DA /* DetectionButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetectionButton.swift; sourceTree = "<group>"; };
 		46693948DE24A37F2936DD08 /* Pods-MLRepurposeTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MLRepurposeTests.debug.xcconfig"; path = "Target Support Files/Pods-MLRepurposeTests/Pods-MLRepurposeTests.debug.xcconfig"; sourceTree = "<group>"; };
 		80C3B57B594701A8099D72D1 /* Pods-MLRepurposeTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MLRepurposeTests.release.xcconfig"; path = "Target Support Files/Pods-MLRepurposeTests/Pods-MLRepurposeTests.release.xcconfig"; sourceTree = "<group>"; };
 		97A3ABAA906CAAF7277A899D /* Pods-MLRepurpose.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MLRepurpose.debug.xcconfig"; path = "Target Support Files/Pods-MLRepurpose/Pods-MLRepurpose.debug.xcconfig"; sourceTree = "<group>"; };
@@ -112,7 +116,9 @@
 				4451C9C823C6B836007BE919 /* Network.swift */,
 				4451C9CE23C82930007BE919 /* EmptyView.swift */,
 				4451C9CA23C7B929007BE919 /* KEY.swift */,
+				44BE9E0B23C9030D0012B8DA /* DetectionButton.swift */,
 				4451C9CC23C81611007BE919 /* LinkPreviewCell.swift */,
+				44BE9E0923C885290012B8DA /* YOLOv3.mlmodel */,
 				440047B323C48A8C007CB6F9 /* Assets.xcassets */,
 				440047B523C48A8C007CB6F9 /* LaunchScreen.storyboard */,
 				440047B823C48A8C007CB6F9 /* Info.plist */,
@@ -319,8 +325,10 @@
 				4451C9CB23C7B929007BE919 /* KEY.swift in Sources */,
 				4451C9CF23C82930007BE919 /* EmptyView.swift in Sources */,
 				440047CF23C51DB1007CB6F9 /* ResultViewController.swift in Sources */,
+				44BE9E0C23C9030D0012B8DA /* DetectionButton.swift in Sources */,
 				4451C9CD23C81611007BE919 /* LinkPreviewCell.swift in Sources */,
 				440047D123C52063007CB6F9 /* DraggableResultView.swift in Sources */,
+				44BE9E0A23C885290012B8DA /* YOLOv3.mlmodel in Sources */,
 				4451C9D123C842CA007BE919 /* CGImagePropertyOrientation+UIImageOrientation.swift.swift in Sources */,
 				4451C9C923C6B836007BE919 /* Network.swift in Sources */,
 				440047AF23C48A89007CB6F9 /* ViewController.swift in Sources */,
