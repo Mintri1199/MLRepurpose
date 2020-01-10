@@ -15,12 +15,13 @@
 		440047B423C48A8C007CB6F9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 440047B323C48A8C007CB6F9 /* Assets.xcassets */; };
 		440047B723C48A8C007CB6F9 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 440047B523C48A8C007CB6F9 /* LaunchScreen.storyboard */; };
 		440047C223C48A8C007CB6F9 /* MLRepurposeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 440047C123C48A8C007CB6F9 /* MLRepurposeTests.swift */; };
-		440047CD23C51C95007CB6F9 /* CustomImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 440047CC23C51C95007CB6F9 /* CustomImageView.swift */; };
 		440047CF23C51DB1007CB6F9 /* ResultViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 440047CE23C51DB1007CB6F9 /* ResultViewController.swift */; };
 		440047D123C52063007CB6F9 /* DraggableResultView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 440047D023C52063007CB6F9 /* DraggableResultView.swift */; };
-		4451C9C723C6B315007BE919 /* ReultTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4451C9C623C6B315007BE919 /* ReultTableView.swift */; };
 		4451C9C923C6B836007BE919 /* Network.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4451C9C823C6B836007BE919 /* Network.swift */; };
 		4451C9CB23C7B929007BE919 /* KEY.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4451C9CA23C7B929007BE919 /* KEY.swift */; };
+		4451C9CD23C81611007BE919 /* LinkPreviewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4451C9CC23C81611007BE919 /* LinkPreviewCell.swift */; };
+		4451C9CF23C82930007BE919 /* EmptyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4451C9CE23C82930007BE919 /* EmptyView.swift */; };
+		4451C9D123C842CA007BE919 /* CGImagePropertyOrientation+UIImageOrientation.swift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4451C9D023C842CA007BE919 /* CGImagePropertyOrientation+UIImageOrientation.swift.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -44,12 +45,13 @@
 		440047BD23C48A8C007CB6F9 /* MLRepurposeTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MLRepurposeTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		440047C123C48A8C007CB6F9 /* MLRepurposeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MLRepurposeTests.swift; sourceTree = "<group>"; };
 		440047C323C48A8C007CB6F9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		440047CC23C51C95007CB6F9 /* CustomImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomImageView.swift; sourceTree = "<group>"; };
 		440047CE23C51DB1007CB6F9 /* ResultViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultViewController.swift; sourceTree = "<group>"; };
 		440047D023C52063007CB6F9 /* DraggableResultView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DraggableResultView.swift; sourceTree = "<group>"; };
-		4451C9C623C6B315007BE919 /* ReultTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReultTableView.swift; sourceTree = "<group>"; };
 		4451C9C823C6B836007BE919 /* Network.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Network.swift; sourceTree = "<group>"; };
 		4451C9CA23C7B929007BE919 /* KEY.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KEY.swift; sourceTree = "<group>"; };
+		4451C9CC23C81611007BE919 /* LinkPreviewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinkPreviewCell.swift; sourceTree = "<group>"; };
+		4451C9CE23C82930007BE919 /* EmptyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyView.swift; sourceTree = "<group>"; };
+		4451C9D023C842CA007BE919 /* CGImagePropertyOrientation+UIImageOrientation.swift.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CGImagePropertyOrientation+UIImageOrientation.swift.swift"; sourceTree = "<group>"; };
 		46693948DE24A37F2936DD08 /* Pods-MLRepurposeTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MLRepurposeTests.debug.xcconfig"; path = "Target Support Files/Pods-MLRepurposeTests/Pods-MLRepurposeTests.debug.xcconfig"; sourceTree = "<group>"; };
 		80C3B57B594701A8099D72D1 /* Pods-MLRepurposeTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MLRepurposeTests.release.xcconfig"; path = "Target Support Files/Pods-MLRepurposeTests/Pods-MLRepurposeTests.release.xcconfig"; sourceTree = "<group>"; };
 		97A3ABAA906CAAF7277A899D /* Pods-MLRepurpose.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MLRepurpose.debug.xcconfig"; path = "Target Support Files/Pods-MLRepurpose/Pods-MLRepurpose.debug.xcconfig"; sourceTree = "<group>"; };
@@ -105,11 +107,12 @@
 				440047AC23C48A89007CB6F9 /* SceneDelegate.swift */,
 				440047AE23C48A89007CB6F9 /* ViewController.swift */,
 				440047CE23C51DB1007CB6F9 /* ResultViewController.swift */,
-				440047CC23C51C95007CB6F9 /* CustomImageView.swift */,
 				440047D023C52063007CB6F9 /* DraggableResultView.swift */,
+				4451C9D023C842CA007BE919 /* CGImagePropertyOrientation+UIImageOrientation.swift.swift */,
 				4451C9C823C6B836007BE919 /* Network.swift */,
-				4451C9C623C6B315007BE919 /* ReultTableView.swift */,
+				4451C9CE23C82930007BE919 /* EmptyView.swift */,
 				4451C9CA23C7B929007BE919 /* KEY.swift */,
+				4451C9CC23C81611007BE919 /* LinkPreviewCell.swift */,
 				440047B323C48A8C007CB6F9 /* Assets.xcassets */,
 				440047B523C48A8C007CB6F9 /* LaunchScreen.storyboard */,
 				440047B823C48A8C007CB6F9 /* Info.plist */,
@@ -314,13 +317,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				4451C9CB23C7B929007BE919 /* KEY.swift in Sources */,
+				4451C9CF23C82930007BE919 /* EmptyView.swift in Sources */,
 				440047CF23C51DB1007CB6F9 /* ResultViewController.swift in Sources */,
+				4451C9CD23C81611007BE919 /* LinkPreviewCell.swift in Sources */,
 				440047D123C52063007CB6F9 /* DraggableResultView.swift in Sources */,
+				4451C9D123C842CA007BE919 /* CGImagePropertyOrientation+UIImageOrientation.swift.swift in Sources */,
 				4451C9C923C6B836007BE919 /* Network.swift in Sources */,
 				440047AF23C48A89007CB6F9 /* ViewController.swift in Sources */,
-				440047CD23C51C95007CB6F9 /* CustomImageView.swift in Sources */,
 				440047AB23C48A89007CB6F9 /* AppDelegate.swift in Sources */,
-				4451C9C723C6B315007BE919 /* ReultTableView.swift in Sources */,
 				440047AD23C48A89007CB6F9 /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

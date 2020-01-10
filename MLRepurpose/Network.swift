@@ -8,7 +8,6 @@
 
 import Foundation
 import LinkPresentation
-import WebKit
 import SwiftSoup
 
 struct ResultModel: Codable {
@@ -19,7 +18,7 @@ struct ResultModel: Codable {
 class NetworkManager {
     
     func searchApi(item_name: String, completion: @escaping (Result<[ResultModel], Error>) -> Void) {
-
+        
         let headers = [
             "x-rapidapi-host": "google-search3.p.rapidapi.com",
             "x-rapidapi-key": API_KEY
@@ -35,11 +34,11 @@ class NetworkManager {
         ]
         
         let request = NSMutableURLRequest(url: components.url!,
-                                                cachePolicy: .useProtocolCachePolicy,
-                                            timeoutInterval: 10.0)
+                                          cachePolicy: .useProtocolCachePolicy,
+                                          timeoutInterval: 10.0)
         request.httpMethod = "GET"
         request.allHTTPHeaderFields = headers
-
+        
         let session = URLSession.shared
         let dataTask = session.dataTask(with: request as URLRequest, completionHandler: { (data, response, error) -> Void in
             if let error = error {
@@ -61,36 +60,3 @@ class NetworkManager {
     }
 }
 
-class ResultLinkPreview {
-    init() {
-    }
-    
-    func startFetching(urls: [URL], completion: @escaping ([LPLinkMetadata]) -> Void ) {
-        // Fetch the metadata of the input urls for LPLinkViews
-        let provider = LPMetadataProvider()
-        var metadata_array: [LPLinkMetadata] = []
-        DispatchQueue.global(qos: .userInitiated).async {
-            for url in urls {
-                provider.startFetchingMetadata(for: url) { (metadata, error) in
-                    if error != nil {
-                        let placeholder = LPLinkMetadata()
-                        placeholder.originalURL = url
-                        metadata_array.append(placeholder)
-                    }
-                    
-                    if let metadata = metadata {
-                        metadata_array.append(metadata)
-                    } else {
-                        let placeholder = LPLinkMetadata()
-                        placeholder.originalURL = url
-                        metadata_array.append(placeholder)
-                    }
-                }
-                
-                DispatchQueue.main.asyncAfter(deadline: .now(), execute: {
-                    completion(metadata_array)
-                })
-            }
-        }
-    }
-}

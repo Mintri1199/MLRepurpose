@@ -9,6 +9,7 @@
 import UIKit
 import CoreData
 
+
 class DraggableResultView: UIView, UIGestureRecognizerDelegate {
         
     var timeStampView = UIView()

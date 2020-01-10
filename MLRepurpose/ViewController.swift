@@ -7,7 +7,7 @@
 //
 
 import UIKit
-import AVFoundation
+
 
 class ViewController: UIViewController {
     
@@ -37,20 +37,8 @@ class ViewController: UIViewController {
         // Do any additional setup after loading the view.
         view.backgroundColor = .white
         setupUI()
-        let manager = NetworkManager()
-        manager.searchApi(item_name: "toothbrush") { (result) in
-            switch result {
-            case let .success(resultModel):
-                print(resultModel)
-            case let .failure(error):
-                print(error.localizedDescription)
-            }
-        }
-        
     }
-    
-    
-    
+
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.navigationController?.navigationBar.isHidden = true
@@ -121,7 +109,11 @@ extension ViewController: UIImagePickerControllerDelegate, UINavigationControlle
             return
         }
         let resultVC = ResultViewController()
-        resultVC.image = image
+        resultVC.show(image)
+        
+        let cgOrientation = CGImagePropertyOrientation(image.imageOrientation)
+        
+        resultVC.performVisionRequest(image: image.cgImage!, orientation: cgOrientation)
         picker.dismiss(animated: true, completion: nil)
         self.navigationController?.pushViewController(resultVC, animated: true)
     }
